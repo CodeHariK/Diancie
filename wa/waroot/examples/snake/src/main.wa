@@ -1,0 +1,193 @@
+// 版权 @2019 凹语言 作者。保留所有权利。
+
+import "snake/canvas"
+
+global ca: *canvas.Canvas
+
+func Canvas_OnMouseDown(id: u32, x, y: u32) {
+	canvas.OnMouseDown(id, x, y)
+}
+func Canvas_OnMouseUp(id: u32, x, y: u32) {
+	canvas.OnMouseUp(id, x, y)
+}
+func Canvas_OnKeyDown(id, key: u32) {
+	canvas.OnKeyDown(id, key)
+}
+func Canvas_OnKeyUp(id, key: u32) {
+	canvas.OnKeyUp(id, key)
+}
+
+type Position :struct {
+	x, y: i32
+}
+
+const DefaultColor = 0x00000000
+const BodyColor = 0xFF202020
+const FoodColor = 0xFF00FF00
+
+const (
+	GridNull :u8 = iota
+	GridBody
+	GridFood
+)
+
+const (
+	DirNull :i32 = iota
+	DirLeft
+	DirUp
+	DirRight
+	DirDown
+)
+
+global Dirs: [5]Position
+
+type GameState :struct {
+	w, h:  i32
+	scale: i32
+	grid:  []u8
+	body:  []Position
+	dir:   i32
+
+	ca: *canvas.Canvas
+}
+
+global gameState: GameState
+
+func GameState.Init(w, h: i32, scale: i32) {
+	this.w = w
+	this.h = h
+	this.scale = scale
+	this.grid = make([]u8, u32(w*h))
+	this.ca = canvas.NewCanvas(u32(w*scale), u32(h*scale))
+
+	caev: canvas.CanvasEvents
+	caev.Device_id = this.ca.GetDeviceID()
+	caev.OnMouseDown = func(x, y: u32) {}
+	caev.OnMouseUp = func(x, y: u32) {}
+	caev.OnKeyUp = func(key: u32) {}
+	caev.OnKeyDown = this.OnKeyDown
+
+	Dirs[DirNull] = Position{x: 0, y: 0}
+	Dirs[DirLeft] = Position{x: -1, y: 0}
+	Dirs[DirUp] = Position{x: 0, y: -1}
+	Dirs[DirRight] = Position{x: 1, y: 0}
+	Dirs[DirDown] = Position{x: 0, y: 1}
+
+	canvas.AttachCanvasEvents(caev)
+}
+
+func GameState.Start() {
+	for i := range this.grid {
+		this.grid[i] = GridNull
+	}
+	this.ca.Clear(DefaultColor)
+	this.dir = DirNull
+
+	this.body = []Position{Position{x: this.w / 2, y: this.h / 2}}
+	this.SetGridType(this.body[0], GridBody)
+
+	this.GenFood()
+
+	this.ca.Flush()
+}
+
+func GameState.SetGridType(p: Position, t: u8) {
+	this.grid[p.y*this.w+p.x] = t
+	color: u32
+	switch t {
+	case GridBody:
+		color = BodyColor
+
+	case GridFood:
+		color = FoodColor
+
+	default:
+		color = DefaultColor
+	}
+
+	x, y: i32
+	for y = 0; y < this.scale; y++ {
+		for x = 0; x < this.scale; x++ {
+			this.ca.SetPixel(u32(p.x*this.scale+x), u32(p.y*this.scale+y), color)
+		}
+	}
+}
+
+#wa:import snake_game rand
+func rand_JS(_: i32) => i32
+func GameState.GenFood() => Position {
+	p: Position
+	for {
+		p = Position{x: rand_JS(this.w), y: rand_JS(this.h)}
+		if this.grid[p.y*this.w+p.x] == GridNull {
+			this.SetGridType(p, GridFood)
+			return p
+		}
+	}
+}
+
+func GameState.OnKeyDown(key: u32) {
+	switch key {
+	case 37:
+		if this.dir == DirNull || this.dir == DirUp || this.dir == DirDown {
+			this.dir = DirLeft
+		}
+
+	case 38:
+		if this.dir == DirNull || this.dir == DirLeft || this.dir == DirRight {
+			this.dir = DirUp
+		}
+
+	case 39:
+		if this.dir == DirNull || this.dir == DirUp || this.dir == DirDown {
+			this.dir = DirRight
+		}
+
+	case 40:
+		if this.dir == DirNull || this.dir == DirLeft || this.dir == DirRight {
+			this.dir = DirDown
+		}
+	}
+}
+
+func GameState.Step() {
+	if this.dir == DirNull {
+		return
+	}
+
+	newHead := this.body[len(this.body)-1]
+	newHead.x += Dirs[this.dir].x
+	newHead.y += Dirs[this.dir].y
+
+	newHead.x = (newHead.x + this.w) % this.w
+	newHead.y = (newHead.y + this.h) % this.h
+
+	switch this.grid[newHead.y*this.w+newHead.x] {
+	case GridBody:
+		this.Start()
+		return
+
+	case GridFood:
+		this.SetGridType(newHead, GridBody)
+		this.body = append(this.body, newHead)
+		this.GenFood()
+
+	default:
+		this.SetGridType(newHead, GridBody)
+		this.SetGridType(this.body[0], GridNull)
+		this.body = append(this.body, newHead)
+		this.body = this.body[1:]
+	}
+
+	this.ca.Flush()
+}
+
+func Step() {
+	gameState.Step()
+}
+
+func main {
+	println("snake game run")
+	gameState.Init(32, 32, 10)
+	gameState.Start()
+}

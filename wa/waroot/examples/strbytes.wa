@@ -1,0 +1,14 @@
+// 版权 @2023 凹语言 作者。保留所有权利。
+
+func main {
+	println("a:", 42)
+	str := "hello"
+	bytes := []byte(str)
+	for _, c := range bytes {
+		println(c)
+	}
+	bytes[0] = 113
+
+	str = string(bytes)
+	println(str)
+}

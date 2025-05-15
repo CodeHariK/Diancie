@@ -1,0 +1,83 @@
+// 版权 @2021 凹语言 作者。保留所有权利。
+
+package compiler_wat
+
+import (
+	"wa-lang.org/wa/internal/ast"
+	"wa-lang.org/wa/internal/loader"
+)
+
+const (
+	// 0 <--- stack pointer | heap base ---> |
+	Default_HeapBase = 1000 * 1000 // 默认 Heap 基址
+)
+
+type Compiler struct {
+	stages []func() error
+
+	prog *loader.Program
+
+	globalNames []string
+	globalNodes map[string]*ast.Ident
+
+	__heap_base_index     int // Heap 基地址
+	__stack_pointer_index int // 当前 SP 地址
+
+	__stackSaveFn    int // 保存 SP
+	__stackRestoreFn int // 恢复 SP
+	__stackAllocFn   int // 调整 SP
+
+	builtinPrintIntndex uint32
+	builtinMainIndex    uint32
+}
+
+func New() *Compiler {
+	p := new(Compiler)
+	p.stages = []func() error{
+		p.reset,
+		p.initModule,
+		p.emitGlobals,
+		p.emitMainBody,
+	}
+	return p
+}
+
+func (p *Compiler) Compile(prog *loader.Program) (output string, err error) {
+	p.prog = prog
+
+	for _, stage := range p.stages {
+		if err := stage(); err != nil {
+			return "", err
+		}
+	}
+
+	// TODO
+	return __base_wat_data, nil
+}
+
+func (p *Compiler) reset() error {
+	p.globalNames = []string{}
+	p.globalNodes = make(map[string]*ast.Ident)
+	return nil
+}
+
+func (p *Compiler) initModule() error {
+	return nil
+}
+
+func (p *Compiler) emitGlobals() error {
+	return nil
+}
+
+func (p *Compiler) emitMainBody() error {
+	return nil
+}
+
+func (p *Compiler) globalIndexByName(name string) uint32 {
+	for i, s := range p.globalNames {
+		if s == name {
+			return uint32(i) + 1
+		}
+	}
+	return 0
+}

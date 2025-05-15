@@ -1,0 +1,8 @@
+// 版权 @2022 凹语言 作者。保留所有权利。
+
+func RandomGet(d: []byte) => (errno: int) {
+	return int(__import__random_get(
+		__linkname__slice_data_ptr(d),
+		i32(len(d)),
+	))
+}

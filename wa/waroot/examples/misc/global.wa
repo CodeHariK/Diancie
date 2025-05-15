@@ -1,0 +1,19 @@
+// 版权 @2021 凹语言 作者。保留所有权利。
+
+global counter: i32 = 13
+global G: *i32
+
+func gen_i() => *i32 {
+	i: i32
+	i = counter
+	counter++
+	return &i
+}
+
+func main {
+	G = gen_i()
+	println(*G)
+	G = gen_i()
+	println(*G)
+	G = nil
+}

@@ -1,0 +1,37 @@
+// 版权 @2021 凹语言 作者。保留所有权利。
+
+func main {
+	i := gen_scref()
+	println(*i.a)
+	println(i.b)
+
+	j := gen_sc()
+	println(*j.a)
+	println(j.b)
+}
+
+type sp :struct {
+	a: *i32
+}
+
+type sc :struct {
+	b: i32
+	sp
+}
+
+func gen_scref() => *sc {
+	v: sc
+	i: i32
+	i = 13
+	v.a = &i
+	v.b = 42
+	return &v
+}
+
+func gen_sc() => sc {
+	i: i32 = 26
+	v: sc
+	v.a = &i
+	v.b = 58
+	return v
+}

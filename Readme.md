@@ -17,12 +17,11 @@
 
 * [Build a Custom Scripting Language In Typescript - Introduction to Interpreters & Compilers](https://www.youtube.com/playlist?list=PL_2VhOvlMk4UHGqYCLWc6GO8FaPl8fQTh)
 
-##
+## Compilers
 
-* [How to Build a Virtual Machine](https://www.youtube.com/watch?v=OjaAToVkoTw)
+* [Writing a C compiler for RISC-V](https://www.youtube.com/playlist?list=PLJ0INvSnPQjPfrip7WlE29yFfYkMfjWu4)
 
-* [Coding a Virtual Machine from scratch in C](https://www.youtube.com/watch?v=vymrj-2YD64)
-* [Coding a Virtual CPU in C](https://www.youtube.com/watch?v=1fow3IEq0b0)
+* [Compiler Development](https://www.youtube.com/playlist?list=PLm7R-cUo29CVmWXQ2ZiaGcUIOVy0FEGaH)
 
 ##
 

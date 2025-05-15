@@ -1,0 +1,9 @@
+// 版权 @2022 凹语言 作者。保留所有权利。
+
+func ArgsGet(result_argv: i32, result_argv_buf: i32) => (errno: i32) {
+	return __import__args_get(result_argv, result_argv_buf)
+}
+
+func ArgsSizesGet(result_argc: i32, result_argv_len: i32) => (errno: i32) {
+	return __import__args_sizes_get(result_argc, result_argv_len)
+}

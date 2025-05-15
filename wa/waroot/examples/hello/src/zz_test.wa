@@ -1,0 +1,13 @@
+// 版权 @2023 hello 作者。保留所有权利。
+
+func init {
+	// println("zz_test.wa")
+}
+
+func TestFoo {
+	assert(true, "foo ok")
+}
+
+func TestBar {
+	assert(true, "bar ok")
+}

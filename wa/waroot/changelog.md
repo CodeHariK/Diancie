@@ -1,0 +1,157 @@
+# 版本日志
+
+- (dev)
+  - Native 后端 (TODO)
+  - 完善 `wa lsp` 子命令 (TODO)
+- v0.22.0 (2025-03-24)
+  - `for range`增加整数迭代和自定义迭代器
+  - Playground界面完善, 并去掉对libwabt的依赖
+  - 增加交互式学习指南: https://wa-lang.org/tutorial/
+  - 修复`wa fmt`子命令格式化wat文件时的错误
+  - 完善`wa wat2c`子命令实现
+- v0.21.0 (2025-02-11)
+  - WA酱吉祥物诞生: https://wa-lang.org/smalltalk/st0069.html
+  - 导出函数使用Bytes外的纯值切片作为参数或返回值时，以值拷贝模式生成js胶水代码
+  - wasm 支持 `memory.fill` 和 `memory.copy` 指令
+  - 优化底层内存管理`malloc`函数的实现
+- v0.20.0 (2025-01-12)
+  - 补充带文字 logo
+  - 种子案例: 实验性支持Dora SSR游戏开发: https://github.com/IppClub/dora-wa
+  - 支持 github action 自动化构建: https://github.com/wa-lang/setup-wa
+  - 修复方法重载处理问题, 支持链式调用
+  - 修复 wa fmt 对匿名结构体成员格式化的问题
+  - 完善 println 打印复数
+  - 完善wat2c子命令
+- v0.19.0 (2024-11-11)
+  - 实现 `defer` 延迟执行函数的特性
+  - 实现复数类型
+- v0.18.0 (2024-11-01)
+  - 实现 key 有序的 `map` 特性, 删除比较运算符重载特性(v0.12.0引入)
+  - 实验性支持 `wat2c` 命令
+- v0.17.0 (2024-10-08)
+  - 恢复 Arduino Nano 33 支持
+  - 预定义常量统一用大写字母, 并增加 `__COLUMN__` 常量
+  - `wa build` 和 `wa run` 增加 `-optimize` 优化参数, 优化后输出体积大约为原来的 1/3 到 1/4
+  - 优化 `wa run` 默认行为, 只有 wasi 默认命令行执行
+  - 实验性增加 Chrome 内置 AI 支持
+- v0.16.0 (2024-09-16)
+  - “国产语言论坛”被动关闭: ~~https://zh-lang.osanswer.net~~
+  - 增加 `__package__`/`__FILE__`/`__LINE__`/`__func__` 预定义常量, 表示当前位置信息
+  - 完善 wasm4 游戏支持, 增加俄罗斯方块/pong/life等多个游戏, 并提供在线试玩页面
+  - 重构 `syscall` 部分子包和文档
+- v0.15.0 (2024-08-25)
+  - 增加 wasm4 游戏平台支持
+  - Playground 依赖的 `wa.wasm` 编译环境升级到 Go1.21 (兼顾 wasip1 编译)
+  - 调整凹语言程序目录结构, `vendor` 改为 `pkg/vendor`, 增加 `pkg/std` 目录为可选标准库
+  - `wa` 命令瘦身: 删除 wabt 工具和 `-wabt` 参数, 去掉 `wa run-wasm` 子命令
+  - 删除 `WAROOT` 环境变量, 凹语言始终以单个 `wa` 命令程序简化安装
+- v0.14.0 (2024-08-01)
+  - 后端重新实现 wat 到 wasm 的转换工具并默认启用; run/build 临时增加 `-wabt=false` 参数
+  - 简化 `wa run`, 优先命令行执行, 并增加 `-web` 参数
+  - 修复 js 胶水代码的错误
+- v0.13.0 (2024-06-21)
+  - 增加 docker 镜像发布, 支持 devcontainer 开发环境
+  - 增加 wasm 版本命令行工具链打包
+  - 增加 `<=>` 运算符, 简化运算符重载特性
+  - 修复指针调用不支持重载方法的问题
+  - 试验性增加 lsp 子命令
+  - 完善 gpu 包
+- v0.12.0 (2024-04-20)
+  - `const` 常量增加 `embed` 实验特性
+  - 完善函数重载和运算符重载功能, 完善胶水代码
+  - 简化 p5 API接口
+- v0.11.0 (2024-04-13)
+  - 完善 `math/{Sin,Cos,Sqrt}` 等 API
+  - 增加 `math/vector`/`math/matrix`/`net` 标准库
+  - 实验性增加运算符重载功能
+- v0.10.0 (2024-03-29)
+  - 补充基本类型读写胶水
+  - 修正 I64、U64 不应导出等一些错误
+  - 实验性引入全局函数和方法的重载功能
+- v0.9.2 (2024-03-04) MVP
+  - 完善 `js/p5` 包, 增加键盘事件处理, 改用凹语言原生绘图
+  - `wa init` 增加 `-p5` 参数
+- v0.9.1 (2024-02-14) MVP
+  - 增加 `js/p5` 包, 支持 P5 儿童编程
+  - 增加放大镜例子
+- v0.9.0 (2023-12-15) MVP
+  - 增加胶水代码定义特性
+  - 添加 js、js/cancas 标准库
+  - 增加 logo、mandelbrot、life、qrcode 等例子
+  - 去掉 LLVM 后端支持, CPU 只支持 wasm 类型, 删除 Clang 和 Arduino 支持
+  - 标准库增加 qrcode
+  - 默认目标 OS 改为 js
+- v0.8.1 (2023-08-11) MVP
+  - MVP 版本, 细节请参考《凹语言手册》：https://wa-lang.org/man
+- v0.7.0 (2023-05-27)
+  - 2023纪念胸章发行
+  - 完成接口功能
+  - 单元测试支持标准库
+  - 去掉外部工具依赖
+- v0.6.0 (2023-04-13)
+  - 增加凹语言中文语法
+  - 初步支持接口方法调用
+  - 包支持混入汇编代码
+  - 删除 testing 实验性的包, 单元测试增加内置的 assert 测试函数
+  - 在“国产语言论坛”开板: https://zh-lang.osanswer.net/c/walang
+- v0.5.1 (2023-03-25)
+  - 凹禁止 package 语法, 仅作为一个保留关键字
+  - wasi: 支持 命令行参数后环境变量(基于 `os` 包)
+  - 命令行增加实验性单元测试功能
+  - 完善空参数函数格式化
+- v0.5.0 (2023-03-06)
+  - 根据 5号 提案将 `fn` 改成 `func`，`#` 作为特殊指令而非注释
+  - 支持 wasi 规范, 输出的支持 Docker 环境运行
+  - 支持 build-tag 条件编译
+  - Play 增加检索功能
+  - 增加 yacc 子命令
+- v0.4.1 (2023-01-08)
+  - 完善内存管理
+  - [完成贪吃蛇游戏](https://wa-lang.org/smalltalk/st0018.html)
+- v0.4.0 (2022-12-03)
+  - 开通 [开源中国机构号](https://my.oschina.net/walang) 和 [微信公众号](https://wa-lang.org/community/), 主仓库迁到 Gitee
+  - 包路径调整为 wa-lang.org/wa
+  - 改进类型方法语法, 支持平台特定源文件
+  - WAT 后端支持多返回值, 支持闭包和方法值, [支持 Arduino Nano 33](https://wa-lang.org/smalltalk/st0015.html)
+  - LLVM 后端支持多返回值, [点亮 Arduino 单片机](https://wa-lang.org/smalltalk/st0014.html)
+  - 已经初步 [图灵完备](https://wa-lang.org/smalltalk/st0013.html)
+- v0.3.1 (2022-11-16)
+  - 完善 WAT 后端, 支持多包
+  - LLVM 后端支持基本数值运算 (依赖 clang 和 llc)
+  - wazero 更新到 v1.0.0-pre.3
+- v0.3.0 (2022-10-28)
+  - 启用 AGPLv3 开源协议
+  - 增加 如何贡献代码 机制
+  - 语言: 实现字符串类型
+  - 启动 LLVM 后端
+- v0.2.3 (2022-10-18)
+  - 支持 JetBrains Fleet 语法高亮
+  - Wat 后端改善对 Slice 支持
+- v0.2.2 (2022-10-11)
+  - Windows 增加 exe 图标
+  - Playground 改进异步加载wasm资源, 支持多个例子
+  - Wat 后端改善全局变量支持
+  - 增加 `#wa:xxx` 模式注释, 支持通过凹语言实现底层的 runtime 函数
+  - 实验特性: 简化无参数和返回值函数定义
+- v0.2.1 (2022-09-16)
+  - 支持纯浏览器编译执行: [https://wa-lang.org/playground](https://wa-lang.org/playground)
+  - 命令行增加打印 logo 子命令
+  - 本地支持被嵌入脚本模式执行
+  - 修复格式化问题
+- v0.2.0 (2022-09-07)
+  - 全面切换到 WAT 后端, 支持 Linux/macOS/Windows 平台
+  - 简化命令行子命令, 不依赖任何第三方工具
+  - 暂时去掉对字符串和浮点数的例子
+- v0.1.3 (2022-08-27)
+  - 去掉 CGO 依赖
+  - 去掉 `opa/wasm` 依赖
+  - `#` 改为单行注释 
+  - 简化命令行, 命令行支持执行单个文件
+- v0.1.2 (2022-08-15)
+  - 增加 `#` 作为空格等价字符
+- v0.1.1 (2022-08-12)
+  - LET 改成 VAR
+- v0.1.0 (2022-07-24)
+  - 开源, 包含 LLVM 后端, 可运行简单例子
+- v0.0.0 (2018-00-00)
+  - 凹名字诞生
