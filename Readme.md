@@ -17,6 +17,8 @@
 
 * [Build a Custom Scripting Language In Typescript - Introduction to Interpreters & Compilers](https://www.youtube.com/playlist?list=PL_2VhOvlMk4UHGqYCLWc6GO8FaPl8fQTh)
 
+* [Creating a Programming Language from Scratch](https://www.youtube.com/playlist?list=PLDeRIkiONWGt4hqLUVu41-VEHZlXuzt8Z)
+
 ## Compilers
 
 * [Writing a C compiler for RISC-V](https://www.youtube.com/playlist?list=PLJ0INvSnPQjPfrip7WlE29yFfYkMfjWu4)
